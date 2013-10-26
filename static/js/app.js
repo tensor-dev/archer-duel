@@ -23,17 +23,18 @@
       pWorld.initWorld({
          onHit : function(data){
             self.destroyBullet();
-               /*if(data.name){
+
+            if(data.hit){
                socket.emit("hit", data);
             }
-            self.nextTurn();*/
+            self.nextTurn();
          }
       });
 
       setInterval(function(){
          pWorld.step();
+         self.drawArcher("archer0", pWorld.getArcher("archer0"));
          self.drawArcher("archer1", pWorld.getArcher("archer1"));
-         self.drawArcher("archer2", pWorld.getArcher("archer2"));
          if (pWorld.bulletExists()){
             self.drawBullet(pWorld.getBullet());
          }
@@ -60,7 +61,7 @@
       }
    };
 
-   Game.prototype.fire = function(){
+   Game.prototype.fire = function(pId, vec){
       this.iAmActive = false;
       socket.emit("fire", {name: pId, vec: vec});
    };
@@ -81,23 +82,22 @@
       $(".bullet").removeClass("bulletVisible");
    };
 
-   /*socket.on('gameStart', function(pId){
-      gameInst =  new Game(pId);
-   });*/
+   socket.on('gameStart', function(){
+      gameInst =  new Game(window.currentPlayerPosition);
+   });
 
    socket.on('state', function (data) {
       gameInst.onState(data);
    });
 
    socket.on('fire', function(data){
-      pWorld.createBullet(data.pId, data.vec);
+      pWorld.createBullet("archer" + data.pId, data.vec);
    });
 
    socket.on('gameEnd', function(){
       gameInst.end();
    });
 
-   gameInst =  new Game(window.currentPlayerPosition);
    socket.emit("ready", connectData);
 
    $(window).unload(
@@ -106,11 +106,11 @@
 
    $("body").keyup(function(e){
       if(e.which == 32 && gameInst && !pWorld.bulletExists()){
-         if (gameInst.playerId == 1){
-            pWorld.createBullet("archer1", {x : 25,y : -15});
+         if (gameInst.playerId == 0){
+            gameInst.fire(gameInst.playerId, {x : 25,y : -15});
          }
          else{
-            pWorld.createBullet("archer2", {x : -25,y : -15});
+            gameInst.fire(gameInst.playerId, {x : -25,y : -15});
          }
       }
    })

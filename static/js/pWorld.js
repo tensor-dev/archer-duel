@@ -4,7 +4,7 @@
    var groundBody = null;
    var archers = {};
    var archer1_body = null;
-   var archer2_body = null;
+   var archer1_body = null;
    var bullet = undefined;
 
    var PIXELS_AS_METER = 30;
@@ -109,8 +109,9 @@
          world.DestroyBody(bullet);
          bullet = undefined;
          cb({
-            name : dataB.name,
-            hp : -1
+            hit : /archer/.test(dataB.name),
+            to : /.$/.exec(dataB.name)[0],
+            hp : 1
          })
       }
    };
@@ -127,16 +128,16 @@
          cb = data.onHit;
          world = createWorld();
          createGround();
-         createArcher("archer1", {x : 10, y : 16});
-         createArcher("archer2", {x : 90, y : 16});
+         createArcher("archer0", {x : 10, y : 16});
+         createArcher("archer1", {x : 90, y : 16});
          world.SetContactListener(new ContactListener());
       },
 
       getHit: function (name) {
+         if (name == "archer0")
+            return archer0_body.userData.hp;
          if (name == "archer1")
             return archer1_body.userData.hp;
-         if (name == "archer2")
-            return archer2_body.userData.hp;
       },
 
       createBullet: function (name, vector, cb) {
