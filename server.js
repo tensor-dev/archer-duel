@@ -116,7 +116,9 @@ app.get('/game/:room', function(req, res){
 
     var room = roomById(req.params.room);
 
-    res.render('game');
+    res.render('game', {
+        userid: req.session.user.identity
+    });
 });
 
 app.post('/auth', function(req, res){
