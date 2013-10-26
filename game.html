@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" 
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Поле</title>
+  <style type="text/css">
+  #centralCont { 
+		position: absolute;
+		width: 3000px; 
+		height: 600px;
+		top: 0px;
+		left: 0px;
+		bottom: 0px;
+		right: 0px;
+		background: #fff; 
+		border: solid 1px black;
+	}
+	#containerForArchers { 
+		position: absolute;
+		width: 100%; 
+		height: 100px;
+		background: #fff;
+		bottom: 5%;
+	}
+	#LeftPl { 
+		width: 70px; 
+		height: 100px;
+		background: #5050ff;
+		position: absolute;
+		left: 15%
+		
+	}
+	#RightPl { 
+		width: 70px; 
+		height: 100px;
+		background: #ff5050;
+		position: absolute;
+		right: 15%
+		
+	}   
+   
+  .block_main { 
+		width: 100%; 
+		height: 100%;
+		top: 0px;
+		left: 0px;
+		bottom: 0px;
+		right: 0px;
+		position: fixed; 
+  }
+  .block_invisible_child { 
+		width: 100%;
+		height: 30%;	
+		top: 2%;
+		position: absolute; 
+  }
+  .block_player_left {
+	   position: absolute;
+	   width: 15%;
+	   height: 100%;
+  }
+  .block_name {
+	   position: absolute;
+	   width: 100%;
+	   height: 50%;
+	   top: 3%
+  }
+  .block_hearts_invisible {
+	   position: absolute;
+	   width: 100%;
+	   height: 30%;
+	   top: 20%;
+  }
+  .block_hearts {
+	   float:left; 
+	   margin-left: 2%;
+	   position: relative;
+	   width: 30%;
+	   height: 100%;
+	   background: #800000;
+  }
+  .block_wind {
+	   position: absolute;
+	   width: 20%;
+	   height: 50%;
+	   border: solid 1px black; 
+	   top: 2%;
+	   left: 40%;
+	   background: #0ff;
+  }
+  .block_player_right {
+	   position: absolute;
+	   width: 15%;
+	   height: 100%;
+	   right: 0%;
+  }
+.leftScrollBox
+{
+	position:fixed;
+	left:0;
+	top:0;
+	width:5%;
+	height:100%;
+	z-index:100;
+}
+
+.rightScrollBox
+{
+	position:fixed;
+	right:0;
+	top:0;
+	width:5%;
+	height:100%;
+	z-index:100;
+}
+  </style> 
+<script src = "HorisontalScrolling.js"></script>
+ </head>
+ <body>
+ <div id="centralCont">
+		<div id="containerForArchers">
+			<div id="LeftPl"></div>
+			<div id="RightPl"></div>
+		</div>
+	 </div>
+	 
+  <div class="block_main">
+		<div class="block_invisible_child">
+			<div align="center" class="block_player_left">
+				<div class="block_name">
+					Имя персонажа
+				</div>
+				<div class="block_hearts_invisible">
+					<div class="block_hearts">
+					</div>
+					<div class="block_hearts">
+					</div>
+					<div class="block_hearts">
+					</div>
+				</div>
+			</div>
+			<div align="center" class="block_wind">
+			
+			</div>
+			<div align="center" class="block_player_right">
+				<div class="block_name">
+					Имя персонажа
+				</div>
+				<div class="block_hearts_invisible">
+					<div class="block_hearts">
+					</div>
+					<div class="block_hearts">
+					</div>
+					<div class="block_hearts">
+					</div>
+				</div>
+			</div>
+		</div> 
+  </div>
+  
+  <!--<div class="block_test">Heart</div> -->
+<div class="leftScrollBox"; onmouseover="MousOverLeft(event)"; onmouseout="ScrollBoxMouseOut()";></div>
+<div class="rightScrollBox"; onmouseover="MousOverRight(event)"; onmouseout="ScrollBoxMouseOut()";></div>
+
+ </body>
+</html>
