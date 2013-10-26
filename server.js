@@ -48,21 +48,25 @@ app.get('/login', function(req, res) {
 });
 
 app.get('/rooms', function(req, res){
-   User.find(function(err, scores){
-       res.render('rooms', {
-           rooms: rooms.map(function(r){
-               return r.toJSON();
-           }),
-           scoreboard: (scores || []).map(function(u){
-               return {
-                   displayName: u.displayName,
-                   games: u.games || 0,
-                   score: u.score || 0
-               };
-           }),
-           currentUser: req.session.user || { displayName: '???' }
+   if(req.session.user) {
+       User.find(function(err, scores){
+           res.render('rooms', {
+               rooms: rooms.map(function(r){
+                   return r.toJSON();
+               }),
+               scoreboard: (scores || []).map(function(u){
+                   return {
+                       displayName: u.displayName,
+                       games: u.games || 0,
+                       score: u.score || 0
+                   };
+               }),
+               currentUser: req.session.user || { displayName: '???' }
+           });
        });
-   });
+   } else {
+       res.redirect('/login');
+   }
 });
 
 app.get('/game/new', function(req, res){
