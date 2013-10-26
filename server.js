@@ -7,6 +7,8 @@ var
  	path = require('path'),
     mongoose = require('mongoose'),
     request = require('request'),
+    Room = require('./lib/room'),
+    Player = require('./lib/player'),
     rooms = [];
 
 
@@ -20,15 +22,7 @@ var userSchema = mongoose.Schema({
     score: Number
 });
 
-
-var scoreboardSchema = mongoose.Schema({
-    displayName: String,
-    games: Number,
-    score: Number
-});
-
 var User = mongoose.model('User', userSchema);
-var Scoreboard = mongoose.model('Scoreboard', scoreboardSchema);
 
 
 app.set('views', path.join(__dirname, '/views'));
@@ -54,18 +48,56 @@ app.get('/login', function(req, res) {
 });
 
 app.get('/rooms', function(req, res){
-   Scoreboard.find(function(err, scores){
+   User.find(function(err, scores){
        res.render('rooms', {
            rooms: rooms.map(function(r){
                return r.toJSON();
            }),
-           scoreboard: scores || [],
+           scoreboard: (scores || []).map(function(u){
+               return {
+                   displayName: u.displayName,
+                   games: u.games,
+                   score: u.score
+               };
+           }),
            currentUser: req.session.user
        });
    });
 });
 
-app.get('/game', function(req, res){
+app.get('/game/new', function(req, res){
+
+    if(!req.session.user) {
+        res.redirect('/login');
+    } else {
+
+        var availRooms = rooms.filter(function(room){
+            return room.canAcceptPlayer();
+        });
+
+        var player = new Player(req.session.user);
+        var room;
+
+        // либо создаем комнату либо берем первую свободную и добавляем туда игрока
+        // затем делаем редирект на эту комнату
+        if(availRooms.length > 0) {
+            room = availRooms[0];
+        } else {
+            rooms.push(room = new Room(io));
+        }
+        room.addPlayer(player);
+        res.redirect('/game/' + room.getId());
+    }
+
+});
+
+app.get('/game/:room', function(req, res){
+
+    var room = roomById(req.params.room);
+
+
+
+
     res.render('game');
 });
 
@@ -101,7 +133,8 @@ app.post('/auth', function(req, res){
                                         res.send(500, err.message);
                                     } else {
                                         req.session.user = {
-                                            displayName: profile.first_name + ' ' + profile.last_name
+                                            displayName: profile.first_name + ' ' + profile.last_name,
+                                            identity: profile.identity
                                         };
                                         res.redirect('/rooms');
                                     }
@@ -128,10 +161,27 @@ app.post('/auth', function(req, res){
 
 
 io.sockets.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });
+
+    socket.on('join', function(data){
+        roomById(data.room).addClient(socket, data);
+    });
+
+    socket.on('leave', function(data){
+        roomById(data.room).removeClient(socket, data);
+    });
+
 });
+
+setInterval(function roomGC(){
+    rooms = rooms.filter(function(room){
+        return room.isAlive();
+    });
+}, 100);
+
+function roomById(id) {
+    return rooms.filter(function(room){
+        return room.getId() == id;
+    })[0];
+}
 
 server.listen(process.env.PORT || 80);
