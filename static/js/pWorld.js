@@ -35,17 +35,16 @@
         body.setUserData(property.name, property.hp);
         body.SetAngularVelocity(10);
     };
-
+    var cb = null;
 
     var world = {};
-    world = createWorld();
     var archer1_body;
     var archer2_body;
     var bullet;
 
-    // обрабатываем столкновения
     var contactListener = function(){}
-    contactListener.prototype = Box2D.Dynamics.b2ContactListener;
+
+    // обрабатываем столкновения
     contactListener.prototype.PostSolve = function(contact, impulse){
         //hit
         var cbData = {};
@@ -67,11 +66,17 @@
     window.pWorld = {
 
     step : function (){
-
+        contactListener.prototype = Box2D.Dynamics.b2ContactListener;
+        var timeStep = 1/60;
+        var iterations = 10;
+        world.Step(timeStep, iterations);
     },
 
     setArcherPos : function (name, pos){
-
+        if (name == "archer1")
+            archer1_body.setUserData(name, archer1_body.userData.hp);
+        if (name == "archer2")
+            archer2_body.setUserData(name, archer2_body.userData.hp);
     },
 
     createArcher : function (name){
@@ -93,6 +98,13 @@
             property.y = 1;
             archer1_body = createBody(world, property);
         }
+    },
+
+    initWorld : function (data){
+        cb = data.onHit;
+        world = createWorld();
+        world.createArcher("archer1");
+        world.createArcher("archer2");
     },
 
     getHit : function (name)
