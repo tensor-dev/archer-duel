@@ -55,13 +55,13 @@ app.get('/game', function(req, res){
 app.post('/auth', function(req, res){
     if(req.body.token) {
 
-        request.get('http://ulogin.ru/token.php?token=' + req.body.token + '&host=' + config.hostname, function(err, res){
+        request.get('http://ulogin.ru/token.php?token=' + req.body.token + '&host=' + config.hostname, function(err, uloginres){
             if (err) {
                 res.send(500, err);
             } else {
                 var profile, jsonerr;
                 try {
-                    profile = JSON.parse(res);
+                    profile = JSON.parse(uloginres);
                 } catch(e) {
                     jsonerr = e;
                 }
@@ -70,8 +70,8 @@ app.post('/auth', function(req, res){
                     if('error' in profile) {
                         res.send(500, profile.error);
                     } else {
-                        User.find({ identity: profile.identity }, function(err, res){
-                            if(err || res && res.length == 0) {
+                        User.find({ identity: profile.identity }, function(err, dbResult){
+                            if(err || dbResult && dbResult.length == 0) {
                                 var user = new User({
                                     identity: profile.identity,
                                     network: profile.network,
@@ -89,7 +89,7 @@ app.post('/auth', function(req, res){
                                 });
                             } else {
                                 res.session.user = {
-                                    displayName: res[0].displayName
+                                    displayName: dbResult[0].displayName
                                 };
                                 res.redirect('/rooms');
                             }
