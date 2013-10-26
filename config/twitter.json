@@ -1,5 +1,0 @@
-{
-    "consumerKey": "Bd0nxcKLyfOObEX3ng1qQ",
-    "consumerSecret": "lrb4jfcO3G74tb9RPRI4Unb0ZF3BeU89pFms46Ryuo",
-    "callbackURL": "http://archer-duel.herokuapp.com/auth/twitter/callback"
-}
