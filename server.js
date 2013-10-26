@@ -117,7 +117,7 @@ app.get('/game/:room', function(req, res){
     // и будут получать все извещения через броадкасты
 
     if(req.session.user) {
-
+        console.log("Rendering room " + req.params.room + " for " + req.session.user.identity);
         var room = roomById(req.params.room);
 
         res.render('game', {
