@@ -95,7 +95,7 @@
    });
 
    socket.on('fire', function(data){
-      pWorld.createBullet("archer" + data.pId, data.vec);
+      pWorld.createBullet("archer" + data.name, data.vec);
    });
 
    socket.on('gameEnd', function(){
