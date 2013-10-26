@@ -85,8 +85,10 @@ app.get('/game/new', function(req, res){
         // либо создаем комнату либо берем первую свободную и добавляем туда игрока
         // затем делаем редирект на эту комнату
         if(availRooms.length > 0) {
+            console.log(req.session.user.displayName + " entering an eisting room");
             room = availRooms[0];
         } else {
+            console.log(req.session.user.displayName + " creating a new room");
             rooms.push(room = new Room(io));
             // будем слушать на комнате событие winner
             room.on('winner', function(userid){
