@@ -1,6 +1,10 @@
 (function(){
    var
       socket = io.connect('http://localhost'),
+      connectData = {
+         room : /[^\/]*$/.exec(window.location.pathname)[0],
+         id : window.currentUserId
+      },
       gameInst;
 
 
@@ -95,7 +99,12 @@
       gameInst.end();
    });
 
-   socket.emit("ready");
+   socket.emit("ready", connectData);
+
+   $(window).unload(
+      socket.emit("leave", connectData)
+   );
+
    $("body").keyup(function(e){
       if(e.which == 32 && gameInst && !pWorld.bulletExists()){
          if (gameInst.playerId == 1){
