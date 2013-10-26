@@ -5,16 +5,16 @@ var
  	io = require('socket.io').listen(server),
     config = require('./config'),
  	path = require('path'),
-    passport = require('passport'),
-    TwitterStrategy = require('passport-twitter').Strategy,
-    mongoose = require('mongoose');
+    mongoose = require('mongoose'),
+    request = require('request');
+
 
 mongoose.connect(config.mongodb.connection);
 
 var userSchema = mongoose.Schema({
-    provider: String,
     displayName: String,
-    providerId: String,
+    identity: String,
+    network: String,
     games: Number,
     score: Number
 });
@@ -28,11 +28,16 @@ app.set('view engine', 'ejs');
 app.use(express.cookieParser());
 app.use(express.cookieSession({ secret: 'secret', key: 's' }));
 app.use(express.logger('dev'));
+app.use(express.urlencoded());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, '/static')));
 
 app.get('/', function(req, res){
-    res.render('index');
+    if(req.session.user) {
+        res.redirect('/rooms');
+    } else {
+        res.redirect('/login')
+    }
 });
 
 app.get('/rooms', function(req, res){
@@ -43,40 +48,59 @@ app.get('/game', function(req, res){
     res.render('game');
 });
 
-passport.use(new TwitterStrategy(config.twitter, function(token, tokenSecret, profile, done) {
-    User.find({ providerId: profile.id }, function(err, res){
-        if(err || res && res.length == 0) {
-            var user = new User({
-                provider: profile.provider,
-                displayName: profile.displayName,
-                providerId: profile.id
-            });
-            user.save(function(err){
-                if (err) {
-                    done(err);
-                } else {
-                    done(null, user);
+app.post('/auth/', function(req, res){
+    if(req.body.token) {
+
+        request.get('http://ulogin.ru/token.php?token=' + req.body.token + '&host=' + config.hostname, function(err, res){
+            if (err) {
+                res.send(500, err);
+            } else {
+                var profile, jsonerr;
+                try {
+                    profile = JSON.parse(res);
+                } catch(e) {
+                    jsonerr = e;
                 }
-            })
-        } else {
-            done(null, res[0]);
-        }
-    });
-}));
 
-// Redirect the user to Twitter for authentication.  When complete, Twitter
-// will redirect the user back to the application at
-//   /auth/twitter/callback
-app.get('/auth/twitter', passport.authenticate('twitter'));
+                if(profile) {
+                    if('error' in profile) {
+                        res.send(500, profile.error);
+                    } else {
+                        User.find({ identity: profile.identity }, function(err, res){
+                            if(err || res && res.length == 0) {
+                                var user = new User({
+                                    identity: profile.identity,
+                                    network: profile.network,
+                                    displayName: profile.first_name + ' ' + profile.last_name
+                                });
+                                user.save(function(err){
+                                    if (err) {
+                                        res.send(500, err);
+                                    } else {
+                                        res.session.user = {
+                                            displayName: profile.first_name + ' ' + profile.last_name
+                                        };
+                                        res.redirect('/rooms');
+                                    }
+                                });
+                            } else {
+                                res.session.user = {
+                                    displayName: res[0].displayName
+                                };
+                                res.redirect('/rooms');
+                            }
+                        });
+                    }
+                } else {
+                    res.send(500, jsonerr);
+                }
+            }
+        })
+    } else {
+       res.send(404);
+    }
+});
 
-// Twitter will redirect the user to this URL after approval.  Finish the
-// authentication process by attempting to obtain an access token.  If
-// access was granted, the user will be logged in.  Otherwise,
-// authentication has failed.
-app.get('/auth/twitter/callback', passport.authenticate('twitter', {
-    successRedirect: '/rooms',
-    failureRedirect: '/?authFailed'
-}));
 
 io.sockets.on('connection', function (socket) {
   socket.emit('news', { hello: 'world' });
