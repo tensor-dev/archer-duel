@@ -52,7 +52,7 @@ app.get('/game', function(req, res){
     res.render('game');
 });
 
-app.post('/auth/', function(req, res){
+app.post('/auth', function(req, res){
     if(req.body.token) {
 
         request.get('http://ulogin.ru/token.php?token=' + req.body.token + '&host=' + config.hostname, function(err, res){
