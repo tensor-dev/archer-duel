@@ -1,13 +1,20 @@
+html, body{
+   height: 100%;
+   min-height: 100%;
+   position: relative;
+   width: 3000px;
+}
+body{
+   padding: 0;
+   margin: 0;
+   background-color: #d0f4f7;
+}
+
 #centralCont {
    position: absolute;
    width: 3000px;
    height: 600px;
-   top: 0px;
-   left: 0px;
-   bottom: 0px;
-   right: 0px;
-   background: #fff;
-   border: solid 1px black;
+   margin-top: -300px;
 }
 #containerForArchers {
    position: absolute;
@@ -87,4 +94,24 @@
    width: 15%;
    height: 100%;
    right: 0%;
+}
+.centralContWrapper{
+   position: relative;
+   top: 50%;
+   height: 50%;
+   background: url("/img/grassCenter.png");
+}
+.ground{
+   position: absolute;
+   height: 30px;
+   background: url("/img/grassHalfMid.png");
+   bottom: 0;
+   width: 100%;
+}
+.skyHelper{
+   position: absolute;
+   width: 100%;
+   height: 50%;
+   bottom: 30px;
+   background-color: #d0f4f7;
 }
