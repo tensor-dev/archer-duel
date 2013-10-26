@@ -116,11 +116,16 @@ app.get('/game/:room', function(req, res){
     // При входе они отправят ready и будут прописаны в socket-комнату
     // и будут получать все извещения через броадкасты
 
-    var room = roomById(req.params.room);
+    if(req.session.user) {
 
-    res.render('game', {
-        userid: req.session.user.identity
-    });
+        var room = roomById(req.params.room);
+
+        res.render('game', {
+            userid: req.session.user.identity
+        });
+    } else {
+        res.redirect('/login');
+    }
 });
 
 app.post('/auth', function(req, res){
