@@ -1,11 +1,13 @@
-<% include head %>
-<div class="container">
-    <form class="form-signin">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <div class="ulogin" id="uLogin" data-ulogin="display=panel;fields=first_name,last_name;providers=vkontakte,google,twitter,facebook,linkedin;hidden=other;redirect_uri=http%3A%2F%2Farcher-duel.herokuapp.com%2Fauth"></div>
-        <input type="text" class="form-control" placeholder="Email address" autofocus>
-        <input type="password" class="form-control" placeholder="Password">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    </form>
-</div>
-<% include foot %>
+<% include inc/head %>
+<body>
+    <div class="container">
+        <form class="form-signin">
+            <h2 class="form-signin-heading">Please sign in</h2>
+            <div class="ulogin" id="uLogin" data-ulogin="display=panel;fields=first_name,last_name;providers=vkontakte,google,twitter,facebook,linkedin;hidden=other;redirect_uri=http%3A%2F%2Farcher-duel.herokuapp.com%2Fauth"></div>
+            <input type="text" class="form-control" placeholder="Email address" autofocus>
+            <input type="password" class="form-control" placeholder="Password">
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        </form>
+    </div>
+</body>
+<% include inc/foot %>
