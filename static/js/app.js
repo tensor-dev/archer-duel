@@ -104,9 +104,9 @@
 
    socket.emit("ready", connectData);
 
-   $(window).unload(
-      socket.emit("leave", connectData)
-   );
+   $(window).unload(function() {
+      socket.emit("leave", connectData);
+   });
 
    $("body").keyup(function(e){
       if(e.which == 32 && gameInst.playerId > -1 && !pWorld.bulletExists() && gameInst.iAmActive){
