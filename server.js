@@ -198,7 +198,7 @@ io.sockets.on('connection', function (socket) {
 setInterval(function roomGC(){
     var filtered = rooms.reduce(function(memo, room){
         memo[room.isAlive() ? 'alive' : 'dead'].push(room);
-        return room.isAlive();
+        return memo;
     }, { alive: [], dead: [] });
 
     filtered.dead.forEach(function(deadRoom){
