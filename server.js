@@ -68,6 +68,7 @@ app.post('/auth', function(req, res){
 
                 if(profile) {
                     if('error' in profile) {
+                        console.error(profile.error);
                         res.send(500, profile.error);
                     } else {
                         User.find({ identity: profile.identity }, function(err, dbResult){
@@ -79,7 +80,8 @@ app.post('/auth', function(req, res){
                                 });
                                 user.save(function(err){
                                     if (err) {
-                                        res.send(500, err);
+                                        console.error(err);
+                                        res.send(500, err.message);
                                     } else {
                                         res.session.user = {
                                             displayName: profile.first_name + ' ' + profile.last_name
@@ -96,7 +98,8 @@ app.post('/auth', function(req, res){
                         });
                     }
                 } else {
-                    res.send(500, jsonerr);
+                    console.error(jsonerr);
+                    res.send(500, jsonerr.message);
                 }
             }
         })
