@@ -105,7 +105,7 @@
          dataA = contact.GetFixtureA().GetBody().GetUserData(),
          dataB = contact.GetFixtureB().GetBody().GetUserData();
 
-      if (dataA.name == "bullet"){
+      if (bullet && dataA.name == "bullet"){
          world.DestroyBody(bullet);
          bullet = undefined;
          cb({
