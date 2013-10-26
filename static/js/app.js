@@ -1,6 +1,6 @@
 (function(){
    var
-      socket = io.connect('http://localhost'),
+      socket = io.connect('/'),
       connectData = {
          room : /[^\/]*$/.exec(window.location.pathname)[0],
          id : window.currentUserId
