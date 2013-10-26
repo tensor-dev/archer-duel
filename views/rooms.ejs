@@ -22,7 +22,7 @@
         <table class="table">
             <% for(var i = 0; i < rooms.length; i++) { %>
             <tr onclick="location='/game/<%= rooms[i].id %>'">
-            <td>
+                <td>
                     <%= rooms[i].player1.displayName %> vs <%= rooms[i].player2.displayName %><br>
                     Spectators: <%= rooms[i].spectators %>
                 </td>
