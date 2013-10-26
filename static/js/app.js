@@ -11,7 +11,7 @@
 
    var Game = function(playerId){
       this.playerId    = playerId;
-      this.iAmActive   = false;
+      this.iAmActive   = this.playerId === 0;
       this.turnTimeout = null;
 
       this.init();
@@ -90,6 +90,10 @@
       gameInst.onState(data);
    });
 
+   socket.on('nextTurn', function (data) {
+      gameInst.iAmActive = data.id == gameInst.playerId;
+   });
+
    socket.on('fire', function(data){
       pWorld.createBullet("archer" + data.pId, data.vec);
    });
@@ -105,7 +109,7 @@
    );
 
    $("body").keyup(function(e){
-      if(e.which == 32 && gameInst && !pWorld.bulletExists()){
+      if(e.which == 32 && gameInst.playerId > -1 && !pWorld.bulletExists() && gameInst.iAmActive){
          if (gameInst.playerId == 0){
             gameInst.fire(gameInst.playerId, {x : 25,y : -15});
          }
