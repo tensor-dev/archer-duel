@@ -59,7 +59,7 @@
       createBody({
          name : "ground",
          x : 50,
-         y : 19.5,
+         y : 20,
          width : 100,
          height: 1
       });
@@ -95,40 +95,29 @@
 
 
 
-   var contactListener = function () {
+   var ContactListener = function () {
    };
 
+   ContactListener.prototype = Box2D.Dynamics.b2ContactListener.prototype;
    // обрабатываем столкновения
-   contactListener.prototype.PostSolve = function (contact, impulse) {
-      //hit
+   ContactListener.prototype.PostSolve = function (contact, impulse) {
       var
-         cbData = {},
-         body = contact.GetBodyB();
+         dataA = contact.GetFixtureA().GetBody().GetUserData(),
+         dataB = contact.GetFixtureB().GetBody().GetUserData();
 
-      world.DestroyBody(bullet);
-      bullet = undefined;
-
-      console.log("asdasdasd");
-      /*cbData.name = body.GetUserData().name;
-
-      if (cbData.name == "archer1") {
-         archer1_body.userData.hp--;
-         cbData.hp = archer1_body.userData.hp;
+      if (dataA.name == "bullet"){
+         world.DestroyBody(bullet);
+         bullet = undefined;
+         cb({
+            name : dataB.name,
+            hp : -1
+         })
       }
-      if (contact.GetBodyB.userData.name == "archer2") {
-         archer2_body.userData.hp--;
-         cbData.hp = archer2_body.userData.hp;
-      }
-
-
-
-      cb(cbData);*/
    };
 
    window.pWorld = {
 
       step: function () {
-         contactListener.prototype = Box2D.Dynamics.b2ContactListener;
          var timeStep = 1 / 60;
          var iterations = 10;
          world.Step(timeStep, iterations);
@@ -137,15 +126,10 @@
       initWorld: function (data) {
          cb = data.onHit;
          world = createWorld();
-         //earthBody
          createGround();
-
-
-
-         ///groundBodyDef; groundBodyDef.position.Set(0.0f, -10.0f);
-         //groundBodyDef; groundBodyDef.position.Set(0.0f, -10.0f);
-         createArcher("archer1", {x : 5, y : 5});
-         createArcher("archer2", {x : 95, y : 5});
+         createArcher("archer1", {x : 10, y : 16});
+         createArcher("archer2", {x : 90, y : 16});
+         world.SetContactListener(new ContactListener());
       },
 
       getHit: function (name) {
@@ -157,12 +141,14 @@
 
       createBullet: function (name, vector, cb) {
          var property = {};
-         property.x = world.getArcherPos(name).x;
-         property.y = world.getArcherPos(name).y + 1; // против столкновения
+         var pos = archers[name].GetPosition();
+         property.x = pos.x + (vector.x > 0 ? 2 : -2);
+         property.y = pos.y - 2; // против столкновения
          property.height = 1;
          property.width = 1;
          property.name = "bullet";
-         bullet = createBody(world, property);
+         property.type = "dynamic";
+         bullet = createBody(property);
          // применить импульс
          bullet.ApplyImpulse(new Box2D.Common.Math.b2Vec2(vector.x, vector.y), bullet.GetWorldCenter());
       },
@@ -176,6 +162,17 @@
            archers[name].ApplyImpulse(vect, archers[name].GetCenter().GetWorldCenter());
        },
 
+      getBullet: function(){
+         var
+            pos = bullet.GetPosition(),
+            data = bullet.GetUserData();
+
+         return {
+            left : (pos.x-data.width/2)*PIXELS_AS_METER,
+            top : (pos.y-data.height/2)*PIXELS_AS_METER
+         }
+      },
+
       bulletExists: function () {
          return bullet !== undefined;
       },
@@ -185,8 +182,6 @@
             body = archers[name],
             pos = body.GetPosition(),
             data = body.GetUserData();
-
-
 
          return {
             left : (pos.x-data.width/2)*PIXELS_AS_METER,

@@ -18,10 +18,11 @@
 
       pWorld.initWorld({
          onHit : function(data){
-            if(data.name){
+            self.destroyBullet();
+               /*if(data.name){
                socket.emit("hit", data);
             }
-            self.nextTurn();
+            self.nextTurn();*/
          }
       });
 
@@ -76,7 +77,7 @@
       $(".bullet").removeClass("bulletVisible");
    };
 
-   gameInst =  new Game("archer1");
+   gameInst =  new Game(2);
 
    socket.on('gameStart', function(pId){
       gameInst =  new Game(pId);
@@ -95,4 +96,14 @@
    });
 
    socket.emit("ready");
+   $("body").keyup(function(e){
+      if(e.which == 32 && gameInst && !pWorld.bulletExists()){
+         if (gameInst.playerId == 1){
+            pWorld.createBullet("archer1", {x : 25,y : -15});
+         }
+         else{
+            pWorld.createBullet("archer2", {x : -25,y : -15});
+         }
+      }
+   })
 }());

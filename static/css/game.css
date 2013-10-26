@@ -26,18 +26,20 @@ body{
 #LeftPl {
    width: 70px;
    height: 100px;
-   background: #5050ff;
    position: absolute;
-   left: 15%
-
+   background: url("/img/p1.png") 2px 8px no-repeat;
+}
+#LeftPl.withBomb{
+   background-image: url("/img/p1_bomb.png");
 }
 #RightPl {
    width: 70px;
    height: 100px;
-   background: #ff5050;
    position: absolute;
-   right: 15%
-
+   background: url("/img/p2.png") 2px 8px no-repeat;
+}
+#RightPl.withBomb{
+   background-image: url("/img/p2_bomb.png");
 }
 
 .block_main {
@@ -114,4 +116,16 @@ body{
    height: 50%;
    bottom: 30px;
    background-color: #d0f4f7;
+}
+.bullet{
+   display: none;
+   position: absolute;
+   background: url("/img/bomb.png") no-repeat;
+   height: 30px;
+   width: 30px;
+   left: 100px;
+   top: 200px;
+}
+.bullet.bulletVisible{
+   display: block;
 }
