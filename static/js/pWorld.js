@@ -34,18 +34,36 @@
         // устанавливаем hp и name
         body.setUserData(property.name, property.hp);
         body.SetAngularVelocity(10);
+        return body;
+        //world.createBody();
+    };
+
+    function createGround(world){
+        var body,
+            body_fix_def,
+            body_def;
+
+        body_def = new Box2D.b2BodyDef();
+        body_def.type = Box2D.b2Body.b2_staticBody;
+        body_def.position.set(0, -5);
+
+        body =
+
+
+        return body;
     };
 
 
-    var world = {};
-    world = createWorld();
-    var archer1_body;
-    var archer2_body;
-    var bullet;
+    var cb = null;
+    var world = null;
+    var groundBody = null;
+    var archer1_body = null;
+    var archer2_body = null;
+    var bullet = undefined;
+
+    var contactListener = function(){}
 
     // обрабатываем столкновения
-    var contactListener = function(){}
-    contactListener.prototype = Box2D.Dynamics.b2ContactListener;
     contactListener.prototype.PostSolve = function(contact, impulse){
         //hit
         var cbData = {};
@@ -60,18 +78,24 @@
             archer2_body.userData.hp--;
             cbData.hp = archer2_body.userData.hp;
         }
-        cb(cbData);
         bullet = undefined;
+        cb(cbData);
     }
 
     window.pWorld = {
 
     step : function (){
-
+        contactListener.prototype = Box2D.Dynamics.b2ContactListener;
+        var timeStep = 1/60;
+        var iterations = 10;
+        world.Step(timeStep, iterations);
     },
 
     setArcherPos : function (name, pos){
-
+        if (name == "archer1")
+            archer1_body.setUserData(name, archer1_body.userData.hp);
+        if (name == "archer2")
+            archer2_body.setUserData(name, archer2_body.userData.hp);
     },
 
     createArcher : function (name){
@@ -93,6 +117,17 @@
             property.y = 1;
             archer1_body = createBody(world, property);
         }
+    },
+
+    initWorld : function (data){
+        cb = data.onHit;
+        world = createWorld();
+        //earthBody
+        createGround(word);
+        ///groundBodyDef; groundBodyDef.position.Set(0.0f, -10.0f);
+        //groundBodyDef; groundBodyDef.position.Set(0.0f, -10.0f);
+        world.createArcher("archer1");
+        world.createArcher("archer2");
     },
 
     getHit : function (name)
@@ -131,14 +166,11 @@
         bullet.ApplyImpulse(new Box2D.Common.Math.b2Vec2(vector.x, vector.y), bullet.center.mass);
     },
 
-    bullet_exist : function (){
+    bulletExist : function (){
         if (bullet == undefined)
             return false;
         return true;
     }
-
-
-
 
 
     };
