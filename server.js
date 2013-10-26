@@ -84,7 +84,7 @@ app.post('/auth', function(req, res){
                                         console.error(err);
                                         res.send(500, err.message);
                                     } else {
-                                        res.session.user = {
+                                        req.session.user = {
                                             displayName: profile.first_name + ' ' + profile.last_name
                                         };
                                         res.redirect('/rooms');
@@ -99,7 +99,7 @@ app.post('/auth', function(req, res){
                         });
                     }
                 } else {
-                    console.log(uloginres)
+                    console.log(uloginres);
                     console.error(jsonerr);
                     res.send(500, jsonerr.message);
                 }
