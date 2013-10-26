@@ -6,7 +6,8 @@ var
     config = require('./config'),
  	path = require('path'),
     mongoose = require('mongoose'),
-    request = require('request');
+    request = require('request'),
+    rooms = [];
 
 
 mongoose.connect(config.mongodb.connection);
@@ -55,13 +56,13 @@ app.get('/game', function(req, res){
 app.post('/auth', function(req, res){
     if(req.body.token) {
 
-        request.get('http://ulogin.ru/token.php?token=' + req.body.token + '&host=' + config.hostname, function(err, uloginres){
+        request.get('http://ulogin.ru/token.php?token=' + req.body.token + '&host=' + config.hostname, function(err, response, uloginres){
             if (err) {
                 res.send(500, err);
             } else {
                 var profile, jsonerr;
                 try {
-                    profile = JSON.parse(uloginres);
+                    profile = JSON.parse(uloginres + "");
                 } catch(e) {
                     jsonerr = e;
                 }
@@ -98,6 +99,7 @@ app.post('/auth', function(req, res){
                         });
                     }
                 } else {
+                    console.log(uloginres)
                     console.error(jsonerr);
                     res.send(500, jsonerr.message);
                 }
