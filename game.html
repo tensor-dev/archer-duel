@@ -95,7 +95,27 @@
 	   height: 100%;
 	   right: 0%;
   }
+.leftScrollBox
+{
+	position:fixed;
+	left:0;
+	top:0;
+	width:5%;
+	height:100%;
+	z-index:100;
+}
+
+.rightScrollBox
+{
+	position:fixed;
+	right:0;
+	top:0;
+	width:5%;
+	height:100%;
+	z-index:100;
+}
   </style> 
+<script src = "HorisontalScrolling.js"></script>
  </head>
  <body>
  <div id="centralCont">
@@ -140,6 +160,8 @@
   </div>
   
   <!--<div class="block_test">Heart</div> -->
+<div class="leftScrollBox"; onmouseover="MousOverLeft(event)"; onmouseout="ScrollBoxMouseOut()";></div>
+<div class="rightScrollBox"; onmouseover="MousOverRight(event)"; onmouseout="ScrollBoxMouseOut()";></div>
 
  </body>
 </html>
