@@ -164,8 +164,17 @@
          property.name = "bullet";
          bullet = createBody(world, property);
          // применить импульс
-         bullet.ApplyImpulse(new Box2D.Common.Math.b2Vec2(vector.x, vector.y), bullet.center.mass);
+         bullet.ApplyImpulse(new Box2D.Common.Math.b2Vec2(vector.x, vector.y), bullet.GetWorldCenter());
       },
+
+       jump : function (name, dir) {
+           var vect = {};// = new Box2D.Common.Math.b2Vec2(vector.x, vector.y);
+           if (dir == "left")
+               vect = new Box2D.Common.Math.b2Vec2(-2, 2);
+           if (dir == "right")
+               vect = new Box2D.Common.Math.b2Vec2(2, 2);
+           archers[name].ApplyImpulse(vect, archers[name].GetCenter().GetWorldCenter());
+       },
 
       bulletExists: function () {
          return bullet !== undefined;
