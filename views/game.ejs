@@ -1,3 +1,4 @@
+<% include head %>
 <nav class="navbar navbar-default" role="navigation">
     <div class="navbar-header">
         <a class="navbar-brand" href="#">Archer Duel</a>
@@ -5,7 +6,7 @@
 
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Hello, Player!</a></li>
+            <li><a href="#">Hello, <%= currentUser.displayName %>!</a></li>
         </ul>
     </div>
 </nav>
@@ -18,12 +19,15 @@
         </div>
 
         <table class="table">
+            <% for(var i = 0; i < rooms.length; i++) { %>
             <tr>
-                <td>Player 1 vs Player 2</td>
+                <td>
+                    <%= rooms[i].player1.displayName %> vs <%= rooms[i].player2.displayName %><br>
+                    Room ID: <%= rooms[i].id %>
+                    Spectators: <%= rooms[i].spectators %>
+                </td>
             </tr>
-            <tr>
-                <td>Player 1 vs Player 2</td>
-            </tr>
+            <% } %>
         </table>
     </div>
 
@@ -31,13 +35,18 @@
         <div class="panel-heading" style="border: 0;">Statistic</div>
         <table class="table">
             <tr>
-                <td>First</td>
-                <td>Second</td>
+                <td><b>Player name</b></td>
+                <td><b>Played games</b></td>
+                <td><b>Score</b></td>
             </tr>
+            <% for(var i = 0; i < scoreboard.length; i++) { %>
             <tr>
-                <td>FF</td>
-                <td>SS</td>
+                <td><%= scoreboard[i].displayName %></td>
+                <td><%= scoreboard[i].games %></td>
+                <td><%= scoreboard[i].score %></td>
             </tr>
+            <% } %>
         </table>
     </div>
 </div>
+<% include foot %>
