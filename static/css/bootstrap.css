@@ -1407,7 +1407,7 @@ th {
   margin-bottom: 20px;
 }
 
-.table tr:hover {
+.clicktable tr:hover {
     background-color: #bce8f1;
     cursor: pointer;
 }
