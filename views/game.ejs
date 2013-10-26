@@ -1,7 +1,8 @@
 <% include inc/head %>
 <body class="gameBody">
 <script>
-    window.currentUserId = '<%= userid %>'
+    window.currentUserId = '<%= userid %>';
+    window.currentPlayerPosition = parseInt('<%= position %>');
 </script>
 <div class="centralContWrapper">
    <div id="centralCont">
@@ -18,7 +19,7 @@
    <div class="block_invisible_child">
       <div align="center" class="block_player_left">
          <div class="block_name">
-            Имя персонажа
+            <%= player1.displayName %>
          </div>
          <div class="block_hearts_invisible">
             <div class="block_hearts">
@@ -34,7 +35,7 @@
       </div>
       <div align="center" class="block_player_right">
          <div class="block_name">
-            Имя персонажа
+            <%= player2.displayName %>
          </div>
          <div class="block_hearts_invisible">
             <div class="block_hearts">

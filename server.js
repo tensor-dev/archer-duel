@@ -116,11 +116,20 @@ app.get('/game/:room', function(req, res){
     // При входе они отправят ready и будут прописаны в socket-комнату
     // и будут получать все извещения через броадкасты
 
-    var room = roomById(req.params.room);
+    if(req.session.user) {
+        console.log("Rendering room " + req.params.room + " for " + req.session.user.identity);
+        var room = roomById(req.params.room);
+        var roomState = room.toJSON();
 
-    res.render('game', {
-        userid: req.session.user.identity
-    });
+        res.render('game', {
+            userid: req.session.user.identity,
+            player1: roomState.player1,
+            player2: roomState.player2,
+            position: room.getUserPosition(req.session.user.identity)
+        });
+    } else {
+        res.redirect('/login');
+    }
 });
 
 app.post('/auth', function(req, res){
@@ -163,7 +172,8 @@ app.post('/auth', function(req, res){
                                 });
                             } else {
                                 req.session.user = {
-                                    displayName: dbResult[0].displayName
+                                    displayName: dbResult[0].displayName,
+                                    identity: dbResult[0].identity
                                 };
                                 res.redirect('/rooms');
                             }
