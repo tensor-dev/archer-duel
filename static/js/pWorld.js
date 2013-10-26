@@ -34,13 +34,32 @@
         // устанавливаем hp и name
         body.setUserData(property.name, property.hp);
         body.SetAngularVelocity(10);
+        return body;
+        //world.createBody();
     };
-    var cb = null;
 
-    var world = {};
-    var archer1_body;
-    var archer2_body;
-    var bullet;
+    function createGround(world){
+        var body,
+            body_fix_def,
+            body_def;
+
+        body_def = new Box2D.b2BodyDef();
+        body_def.type = Box2D.b2Body.b2_staticBody;
+        body_def.position.set(0, -5);
+
+        body =
+
+
+        return body;
+    };
+
+
+    var cb = null;
+    var world = null;
+    var groundBody = null;
+    var archer1_body = null;
+    var archer2_body = null;
+    var bullet = undefined;
 
     var contactListener = function(){}
 
@@ -59,8 +78,8 @@
             archer2_body.userData.hp--;
             cbData.hp = archer2_body.userData.hp;
         }
-        cb(cbData);
         bullet = undefined;
+        cb(cbData);
     }
 
     window.pWorld = {
@@ -103,6 +122,10 @@
     initWorld : function (data){
         cb = data.onHit;
         world = createWorld();
+        //earthBody
+        createGround(word);
+        ///groundBodyDef; groundBodyDef.position.Set(0.0f, -10.0f);
+        //groundBodyDef; groundBodyDef.position.Set(0.0f, -10.0f);
         world.createArcher("archer1");
         world.createArcher("archer2");
     },
@@ -143,14 +166,11 @@
         bullet.ApplyImpulse(new Box2D.Common.Math.b2Vec2(vector.x, vector.y), bullet.center.mass);
     },
 
-    bullet_exist : function (){
+    bulletExist : function (){
         if (bullet == undefined)
             return false;
         return true;
     }
-
-
-
 
 
     };
