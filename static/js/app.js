@@ -16,7 +16,7 @@
    Game.prototype.init = function(){
       var self = this;
 
-      pWorld.init({
+      pWorld.initWorld({
          onHit : function(data){
             if(data.name){
                socket.emit("hit", data);
@@ -27,8 +27,8 @@
 
       setInterval(function(){
          pWorld.step();
-         self.drawArcher("1", pWorld.getArcher("1"));
-         self.drawArcher("2", pWorld.getArcher("2"));
+         self.drawArcher("archer1", pWorld.getArcher("archer1"));
+         self.drawArcher("archer2", pWorld.getArcher("archer2"));
          if (pWorld.bulletExists()){
             self.drawBullet(pWorld.getBullet());
          }
@@ -65,13 +65,18 @@
       socket.emit("nextTurn");
    };
 
-   Game.prototype.drawArcher = function(){
-
+   Game.prototype.drawArcher = function(name, pos){
+      $("." + name).offset(pos);
    };
 
-   Game.prototype.drawBullet = function(){
-
+   Game.prototype.drawBullet = function(pos){
+      $(".bullet").addClass("bulletVisible").offset(pos);
    };
+   Game.prototype.destroyBullet = function(){
+      $(".bullet").removeClass("bulletVisible");
+   };
+
+   gameInst =  new Game("archer1");
 
    socket.on('gameStart', function(pId){
       gameInst =  new Game(pId);
