@@ -88,6 +88,19 @@ app.get('/game/new', function(req, res){
             room = availRooms[0];
         } else {
             rooms.push(room = new Room(io));
+            // будем слушать на комнате событие winner
+            room.on('winner', function(userid){
+                User.find({ identity: userid }, function(err, users){
+                    if (err) {
+                        console.log("Error getting user with identity " + userid);
+                        console.error(err);
+                    } else {
+                        users[0].games = (users[0].games || 0) + 1;
+                        users[0].score = (users[0].score || 0) + 1;
+                        users[0].save();
+                    }
+                })
+            });
         }
         room.addPlayer(player);
         res.redirect('/game/' + room.getId());
@@ -97,10 +110,11 @@ app.get('/game/new', function(req, res){
 
 app.get('/game/:room', function(req, res){
 
+    // Все спектакторы придут сюда, но они не добавлены как игроки.
+    // При входе они отправят ready и будут прописаны в socket-комнату
+    // и будут получать все извещения через броадкасты
+
     var room = roomById(req.params.room);
-
-
-
 
     res.render('game');
 });
@@ -166,7 +180,7 @@ app.post('/auth', function(req, res){
 
 io.sockets.on('connection', function (socket) {
 
-    socket.on('join', function(data){
+    socket.on('ready', function(data){
         roomById(data.room).addClient(socket, data);
     });
 
@@ -176,10 +190,18 @@ io.sockets.on('connection', function (socket) {
 
 });
 
+// сборка умерших комнат
 setInterval(function roomGC(){
-    rooms = rooms.filter(function(room){
+    var filtered = rooms.reduce(function(memo, room){
+        memo[room.isAlive() ? 'alive' : 'dead'].push(room);
         return room.isAlive();
+    }, { alive: [], dead: [] });
+
+    filtered.dead.forEach(function(deadRoom){
+        deadRoom.dispose();
     });
+
+    rooms = filtered.alive;
 }, 100);
 
 function roomById(id) {
