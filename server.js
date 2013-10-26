@@ -195,11 +195,17 @@ app.post('/auth', function(req, res){
 io.sockets.on('connection', function (socket) {
 
     socket.on('ready', function(data){
-        roomById(data.room).addClient(socket, data);
+        var room = roomById(data.room);
+        if(room) {
+            room.addClient(socket, data);
+        }
     });
 
     socket.on('leave', function(data){
-        roomById(data.room).removeClient(socket, data);
+        var room = roomById(data.room);
+        if(room) {
+            room.removeClient(socket, data);
+        }
     });
 
 });
