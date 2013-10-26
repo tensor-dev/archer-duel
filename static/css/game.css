@@ -130,3 +130,22 @@ body.gameBody{
 .bullet.bulletVisible{
    display: block;
 }
+.leftScrollBox
+{
+    position:fixed;
+    left:0;
+    top:0;
+    width:5%;
+    height:100%;
+    z-index:100;
+}
+
+.rightScrollBox
+{
+    position:fixed;
+    right:0;
+    top:0;
+    width:5%;
+    height:100%;
+    z-index:100;
+}
