@@ -168,7 +168,8 @@ app.post('/auth', function(req, res){
                                 });
                             } else {
                                 req.session.user = {
-                                    displayName: dbResult[0].displayName
+                                    displayName: dbResult[0].displayName,
+                                    identity: dbResult[0].identity
                                 };
                                 res.redirect('/rooms');
                             }
