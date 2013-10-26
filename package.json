@@ -24,5 +24,8 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/tensor-dev/archer-duel/issues"
+  },
+  "engine": {
+    "node": "0.10.21"
   }
 }
