@@ -12,6 +12,13 @@ app.use(express.logger('dev'));
 app.use(app.router);
 app.use(express.static(path.join(__dirname, '/static')));
 
+
+app.get('/', function(req, res){
+
+    res.render('index');
+
+});
+
 io.sockets.on('connection', function (socket) {
   socket.emit('news', { hello: 'world' });
   socket.on('my other event', function (data) {
