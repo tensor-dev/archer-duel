@@ -91,7 +91,7 @@ app.post('/auth', function(req, res){
                                     }
                                 });
                             } else {
-                                res.session.user = {
+                                req.session.user = {
                                     displayName: dbResult[0].displayName
                                 };
                                 res.redirect('/rooms');
