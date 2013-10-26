@@ -15,15 +15,15 @@
     <div class="panel panel-info text-center" style="max-width: 48%; min-width: 30%; float: left;">
         <div class="panel-heading">Game Rooms</div>
         <div class="panel-body">
-            <button class="btn btn-lg btn-primary btn-block" type="button">Start Game</button>
+            <button class="btn btn-lg btn-primary btn-block" type="button" onclick="location='/game/new'">Start Game
+            </button>
         </div>
 
         <table class="table">
             <% for(var i = 0; i < rooms.length; i++) { %>
-            <tr>
-                <td>
+            <tr onclick="location='/game/<%= rooms[i].id %>'">
+            <td>
                     <%= rooms[i].player1.displayName %> vs <%= rooms[i].player2.displayName %><br>
-                    Room ID: <%= rooms[i].id %>
                     Spectators: <%= rooms[i].spectators %>
                 </td>
             </tr>
