@@ -3,6 +3,7 @@ function Player(id, name, hp, fireCallback) {
     this._id = id;
     this._name = name;
     this._hp = hp;
+    this._isCurrent = false;
     this._fireCallback = fireCallback;
 
     this._render();
@@ -31,6 +32,11 @@ Player.prototype._render = function() {
 Player.prototype.setHP = function(hp) {
     // TODO(sasha-vinogradov) change hp value
     // TODO(sasha-vinogradov) update hp indicator on screen
+};
+
+Player.prototype.setCurrent = function() {
+    // TODO(makhov-aleksandr) store current flag
+    // TODO(makhov-aleksandr) render current indicator
 };
 
 
