@@ -119,9 +119,13 @@ app.get('/game/:room', function(req, res){
     if(req.session.user) {
         console.log("Rendering room " + req.params.room + " for " + req.session.user.identity);
         var room = roomById(req.params.room);
+        var roomState = room.toJSON();
 
         res.render('game', {
-            userid: req.session.user.identity
+            userid: req.session.user.identity,
+            player1: roomState.player1,
+            player2: roomState.player2,
+            position: room.getUserPosition(req.session.user.identity)
         });
     } else {
         res.redirect('/login');
