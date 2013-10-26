@@ -6,7 +6,21 @@ var
     config = require('./config'),
  	path = require('path'),
     passport = require('passport'),
-    TwitterStrategy = require('passport-twitter').Strategy;
+    TwitterStrategy = require('passport-twitter').Strategy,
+    mongoose = require('mongoose');
+
+mongoose.connect(config.mongodb.connection);
+
+var userSchema = mongoose.Schema({
+    provider: String,
+    displayName: String,
+    providerId: String,
+    games: Number,
+    score: Number
+});
+
+var User = mongoose.model('User', userSchema);
+
 
 app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'jade');
@@ -21,9 +35,33 @@ app.get('/', function(req, res){
     res.render('index');
 });
 
+app.get('/rooms', function(req, res){
+   res.render('rooms');
+});
+
+app.get('/game', function(req, res){
+    res.render('game');
+});
+
 passport.use(new TwitterStrategy(config.twitter, function(token, tokenSecret, profile, done) {
-    console.log(require('util').inspect(profile));
-    done();
+    User.find({ providerId: profile.id }, function(err, res){
+        if(err || res && res.length == 0) {
+            var user = new User({
+                provider: profile.provider,
+                displayName: profile.displayName,
+                providerId: profile.id
+            });
+            user.save(function(err){
+                if (err) {
+                    done(err);
+                } else {
+                    done(null, user);
+                }
+            })
+        } else {
+            done(null, res[0]);
+        }
+    });
 }));
 
 // Redirect the user to Twitter for authentication.  When complete, Twitter
@@ -35,7 +73,10 @@ app.get('/auth/twitter', passport.authenticate('twitter'));
 // authentication process by attempting to obtain an access token.  If
 // access was granted, the user will be logged in.  Otherwise,
 // authentication has failed.
-app.get('/auth/twitter/callback', passport.authenticate('twitter', { successRedirect: '/', failureRedirect: '/login' }));
+app.get('/auth/twitter/callback', passport.authenticate('twitter', {
+    successRedirect: '/rooms',
+    failureRedirect: '/?authFailed'
+}));
 
 io.sockets.on('connection', function (socket) {
   socket.emit('news', { hello: 'world' });
