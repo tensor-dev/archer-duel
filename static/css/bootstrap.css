@@ -1407,6 +1407,11 @@ th {
   margin-bottom: 20px;
 }
 
+.clicktable tr:hover {
+    background-color: #bce8f1;
+    cursor: pointer;
+}
+
 .table thead > tr > th,
 .table tbody > tr > th,
 .table tfoot > tr > th,
