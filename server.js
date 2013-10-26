@@ -56,11 +56,11 @@ app.get('/rooms', function(req, res){
            scoreboard: (scores || []).map(function(u){
                return {
                    displayName: u.displayName,
-                   games: u.games,
-                   score: u.score
+                   games: u.games || 0,
+                   score: u.score || 0
                };
            }),
-           currentUser: req.session.user
+           currentUser: req.session.user || { displayName: '???' }
        });
    });
 });
