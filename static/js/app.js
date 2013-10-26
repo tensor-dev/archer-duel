@@ -81,11 +81,9 @@
       $(".bullet").removeClass("bulletVisible");
    };
 
-   gameInst =  new Game(2);
-
-   socket.on('gameStart', function(pId){
+   /*socket.on('gameStart', function(pId){
       gameInst =  new Game(pId);
-   });
+   });*/
 
    socket.on('state', function (data) {
       gameInst.onState(data);
@@ -99,6 +97,7 @@
       gameInst.end();
    });
 
+   gameInst =  new Game(window.currentPlayerPosition);
    socket.emit("ready", connectData);
 
    $(window).unload(
