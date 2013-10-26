@@ -20,7 +20,15 @@ var userSchema = mongoose.Schema({
     score: Number
 });
 
+
+var scoreboardSchema = mongoose.Schema({
+    displayName: String,
+    games: Number,
+    score: Number
+});
+
 var User = mongoose.model('User', userSchema);
+var Scoreboard = mongoose.model('Scoreboard', scoreboardSchema);
 
 
 app.set('views', path.join(__dirname, '/views'));
@@ -46,7 +54,15 @@ app.get('/login', function(req, res) {
 });
 
 app.get('/rooms', function(req, res){
-   res.render('rooms');
+   Scoreboard.find(function(err, scores){
+       res.render('rooms', {
+           rooms: rooms.map(function(r){
+               return r.toJSON();
+           }),
+           scoreboard: scores || [],
+           currentUser: req.session.user
+       });
+   });
 });
 
 app.get('/game', function(req, res){
