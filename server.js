@@ -23,7 +23,7 @@ var User = mongoose.model('User', userSchema);
 
 
 app.set('views', path.join(__dirname, '/views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'ejs');
 
 app.use(express.cookieParser());
 app.use(express.cookieSession({ secret: 'secret', key: 's' }));
