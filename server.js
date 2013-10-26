@@ -10,6 +10,8 @@ var
 app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'jade');
 
+app.use(express.cookieParser());
+app.use(express.cookieSession({ secret: 'secret', key: 's' }));
 app.use(express.logger('dev'));
 app.use(app.router);
 app.use(express.static(path.join(__dirname, '/static')));
