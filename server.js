@@ -3,6 +3,7 @@ var
 	app = express(),
 	server = require('http').createServer(app),
  	io = require('socket.io').listen(server),
+    config = require('./config'),
  	path = require('path'),
     passport = require('passport'),
     TwitterStrategy = require('passport-twitter').Strategy;
@@ -20,16 +21,10 @@ app.get('/', function(req, res){
     res.render('index');
 });
 
-passport.use(new TwitterStrategy({
-        consumerKey: 'Bd0nxcKLyfOObEX3ng1qQ',
-        consumerSecret: 'lrb4jfcO3G74tb9RPRI4Unb0ZF3BeU89pFms46Ryuo',
-        callbackURL: "http://www.example.com/auth/twitter/callback"
-    },
-    function(token, tokenSecret, profile, done) {
-        console.log(require('util').inspect(profile));
-        done();
-    }
-));
+passport.use(new TwitterStrategy(config.twitter, function(token, tokenSecret, profile, done) {
+    console.log(require('util').inspect(profile));
+    done();
+}));
 
 // Redirect the user to Twitter for authentication.  When complete, Twitter
 // will redirect the user back to the application at
