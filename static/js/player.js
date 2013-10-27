@@ -12,7 +12,6 @@ function Player(id, name, hp, fireCallback) {
 Player.prototype._render = function() {
 
     //render hp indicator
-	$(function(){
 	if (this.getID()==0)
 	{
 		//render name
