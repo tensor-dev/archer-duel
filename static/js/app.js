@@ -32,6 +32,9 @@
             if(data.hit){
                socket.emit("hit", data);
             }
+            else{
+               gameInst.nextTurn();
+            }
          }
       });
 
@@ -70,9 +73,6 @@
 
       if (winner !== null){
          socket.emit("stopGame", {winner : winner});
-      }
-      else{
-         this.nextTurn();
       }
    };
 
