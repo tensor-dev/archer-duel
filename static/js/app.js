@@ -32,7 +32,6 @@
             if(data.hit){
                socket.emit("hit", data);
             }
-            self.nextTurn();
          }
       });
 
@@ -72,6 +71,9 @@
       if (winner !== null){
          socket.emit("stopGame", {winner : winner});
       }
+      else{
+         this.nextTurn();
+      }
    };
 
    Game.prototype.fire = function(pId, vec){
@@ -98,8 +100,9 @@
       $(this.elems["bullet"]).removeClass("bulletVisible");
    };
 
-   socket.on('gameStart', function(){
+   socket.on('gameStart', function(data){
       gameInst =  new Game(window.currentPlayerPosition);
+      gameInst.onState(data);
    });
 
    socket.on('state', function (data) {
