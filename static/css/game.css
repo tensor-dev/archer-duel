@@ -169,6 +169,7 @@ body.gameBody{
 }
 
 .triangle {
+    position: absolute;
     border-color: #57af1a #fff #fff #fff;
     border-style: solid;
     border-width: 50px 30px 0 60px;

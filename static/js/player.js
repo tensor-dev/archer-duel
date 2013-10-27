@@ -28,19 +28,22 @@ Player.prototype._render = function() {
      });
      */
 
-    var player0 = document.getElementById("LeftPl");
-    var indicator0 = document.getElementById("archer0_indicator");
+    if(this._id == 0)
+    {
+        var playerID = "LeftPl";
+    }
+    else
+    {
+        var playerID = "RightP2";
+    }
 
-    indicator0.style.position = "absolute";
-    indicator0.style.left = player0.style.left;
-    indicato0.style.top = player0.style.top + 50;
+    var indicatorID = "archer" + this._id + "_indicator";
 
-    var player1 = document.getElementById("RightPl");
-    var indicator1 = document.getElementById("archer1_indicator");
+    var player = document.getElementById(playerID);
+    var indicator = document.getElementById(indicatorID);
 
-    indicator1.style.position = "absolute";
-    indicator1.style.left = player1.style.left;
-    indicato1.style.top = player1.style.top + 50;
+    indicator.style.left = player.style.left;
+    indicator.style.top = player.style.top + 50;
 };
 
 Player.prototype.setHP = function(hp) {
@@ -53,30 +56,16 @@ Player.prototype.setCurrent = function(flag) {
     this._isCurrent = flag;
 
     // TODO(makhov-aleksandr) render current indicator
-    if(this._id == 0)
-    {
-        var indicator0 = document.getElementById("archer0_indicator");
-        if(flag == true)
-        {
-            idicator0.className = " triangle";
-        }
-        else
-        {
-            idicator0.className = "";
-        }
-    }
+    var indicatorID = "archer" + this._id + "indicator";
+    var indicator = document.getElementById(indicatorID);
 
-    if(this._id == 1)
+    if(flag == true)
     {
-        var indicator0 = document.getElementById("archer1_indicator");
-        if(flag == true)
-        {
-            idicator1.className = " triangle";
-        }
-        else
-        {
-            idicator1.className = "";
-        }
+        idicator.className = " triangle";
+    }
+    else
+    {
+        idicator.className = "";
     }
 };
 
