@@ -30,6 +30,7 @@ body.gameBody{
    height: 100px;
    position: absolute;
    background: url("/img/p1.png") 2px 8px no-repeat;
+   left: -200px;
 }
 #LeftPl.withBomb{
    background-image: url("/img/p1_bomb.png");
@@ -39,6 +40,7 @@ body.gameBody{
    height: 100px;
    position: absolute;
    background: url("/img/p2.png") 2px 8px no-repeat;
+   left: -200px;
 }
 #RightPl.withBomb{
    background-image: url("/img/p2_bomb.png");
