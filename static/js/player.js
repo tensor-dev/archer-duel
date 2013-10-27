@@ -14,19 +14,26 @@ Player.prototype._render = function() {
     // TODO(sasha-vinogradov) render name
     // TODO(sasha-vinogradov) render hp indicator
 
-    // TODO(igor-nikitin) setup fire listener
-    /*
-     ??? Как узнать на какой DOM элемент подвешивать события ???
-        var self = this;
-        $('body').on('mousedown', function() { ... });
-        $('body').on('mouseup', function() {
-           ...
-           ...
-           ...
-
-            self._fireCallback(self._id, x, y);
-        });
-     */
+    var self = this;
+    var downX = null;
+    var downY = null;
+    //Если координаты вектора больше нигде не потребуются, то можно не объявлять
+    var vectorX, vectorY;
+    $('body').delegate(".archer" + self._id, 'mousedown', function (e) {
+        //Координаты нажатия мыши относительно окна
+        downX = e.pageX;
+        downY = e.pageY;
+    });
+    $("body").mouseup(function (e) {
+        //Если кликали не там, где надо, то уходим
+        if (downX == null || downY == null)
+            return;
+        //Считаем координаты обратного вектора
+        vectorX = downX - e.pageX;
+        vectorY = downY - e.pageY;
+        self._fireCallback(self._id, vectorX, vectorY);
+        downX = downY = null;
+    });
 };
 
 Player.prototype.setHP = function(hp) {
