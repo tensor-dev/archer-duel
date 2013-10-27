@@ -38,8 +38,12 @@
 
       setInterval(function(){
          pWorld.step();
-         self.drawArcher("archer0", pWorld.getArcher("archer0"));
-         self.drawArcher("archer1", pWorld.getArcher("archer1"));
+         if (!pWorld.IsSleep("archer0")){
+            self.drawArcher("archer0", pWorld.getArcher("archer0"));
+         }
+         if (!pWorld.IsSleep("archer1")){
+            self.drawArcher("archer1", pWorld.getArcher("archer1"));
+         }
          if (pWorld.bulletExists()){
             self.drawBullet(pWorld.getBullet());
          }
@@ -51,13 +55,21 @@
    };
 
    Game.prototype.onState = function(data){
-      var self = this;
+      var winner = null;
       if(this.playerId == data.currentPlayer){
-         //значит мы ходим
          this.iAmActive = true;
-         /*this.turnTimeout = setTimeout(function(){
-            self.nextTurn()
-         }, 20000);*/
+         pWorld.changeWind(data.wind);
+      }
+
+      if (!data["player1"].hp){
+         winner = 1;
+      }
+      else if (!data["player2"].hp){
+         winner = 0;
+      }
+
+      if (winner){
+         socket.emit("stopGame", {winner : winner});
       }
    };
 

@@ -178,6 +178,15 @@
          return bullet !== undefined;
       },
 
+      isSleep: function (name) {
+         return !archers[name].body.IsAwake();
+      },
+
+      changeWind: function (dir) {
+         var wind = new Box2D.Common.Math.b2Vec2(dir, 10);
+         world.SetGravity(wind);
+      },
+
       getArcher: function(name){
          var
             body = archers[name],
