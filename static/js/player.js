@@ -12,9 +12,8 @@ function Player(id, name, hp, fireCallback) {
 Player.prototype._render = function() {
 
     //render hp indicator
-	$(function(){
 	if (this.getID()==0)
-	{	
+	{
 		//render name
 		$( "#nickname1" ).text( this.getName() );
 		var current_hp = this.getHP();
@@ -140,8 +139,8 @@ Player.prototype.setHP = function(hp) {
 					}
 					if (hp==2)
 					{
-						
-						
+
+
 						$("#12").removeClass("block_hearts_full");
 						$("#12").addClass("block_hearts_empty");
 						$("#11").removeClass("block_hearts_full");
@@ -163,8 +162,8 @@ Player.prototype.setHP = function(hp) {
 						$("#12").addClass("block_hearts_empty");
 					}
 				}
-			
-			
+
+
 		}
 		else if (this.getID()==1)
 		{
@@ -229,6 +228,3 @@ Player.prototype.getID = function() {
 	return this._id
 };
 
-new Player(1, 'vasya', 3, function(id, x, y){
-    console.log(x + ' ' + y);
-});
