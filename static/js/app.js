@@ -27,9 +27,11 @@
 
       pWorld.initWorld({
          onHit : function(data){
+            console.log("hit!!!");
             self.destroyBullet();
 
             if(data.hit){
+               console.log("emit : hit");
                socket.emit("hit", data);
             }
             else{
@@ -64,6 +66,8 @@
          ChangeWind(data.wind);
       }
 
+      console.log("received state : " + JSON.stringify(data));
+
       if (!data["player1"].hp){
          winner = 1;
       }
@@ -73,17 +77,20 @@
 
       if (winner !== null){
          socket.emit("stopGame", {winner : winner});
+         console.log("emit : stopGame; winner : " + winner );
       }
    };
 
    Game.prototype.fire = function(pId, vec){
       this.iAmActive = false;
       socket.emit("fire", {name: pId, vec: vec});
+      console.log("emit : fire");
    };
 
    Game.prototype.nextTurn = function(){
       clearTimeout(this.turnTimeout);
       socket.emit("nextTurn");
+      console.log("emit : nextTurn");
    };
 
    Game.prototype.drawArcher = function(name, pos){
