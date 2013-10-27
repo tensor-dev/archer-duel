@@ -72,7 +72,7 @@
       });
       createBody({
          name : "ground",
-         x : 22,
+         x : 102,
          y : 10,
          width : 1,
          height: 20
