@@ -38,10 +38,10 @@
 
       setInterval(function(){
          pWorld.step();
-         if (!pWorld.IsSleep("archer0")){
+         if (!pWorld.isSleep("archer0")){
             self.drawArcher("archer0", pWorld.getArcher("archer0"));
          }
-         if (!pWorld.IsSleep("archer1")){
+         if (!pWorld.isSleep("archer1")){
             self.drawArcher("archer1", pWorld.getArcher("archer1"));
          }
          if (pWorld.bulletExists()){
