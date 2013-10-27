@@ -69,7 +69,7 @@
          winner = 0;
       }
 
-      if (winner){
+      if (winner !== null){
          socket.emit("stopGame", {winner : winner});
       }
    };
