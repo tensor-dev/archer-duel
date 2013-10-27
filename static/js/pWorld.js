@@ -68,14 +68,14 @@
          x : -2,
          y : 10,
          width : 1,
-         height: 20
+         height: 40
       });
       createBody({
          name : "ground",
          x : 102,
          y : 10,
          width : 1,
-         height: 20
+         height: 40
       });
    }
 
