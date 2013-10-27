@@ -13,6 +13,11 @@
       this.playerId    = playerId;
       this.iAmActive   = this.playerId === 0;
       this.turnTimeout = null;
+      this.elems= {
+         "archer0" : $(".archer0")[0],
+         "archer1" : $(".archer1")[0],
+         "bullet"  : $(".bullet")[0]
+      };
 
       this.init();
    };
@@ -72,14 +77,17 @@
    };
 
    Game.prototype.drawArcher = function(name, pos){
-      $("." + name).offset(pos);
+      this.elems[name].style.top = pos.top + "px";
+      this.elems[name].style.left = pos.left + "px";
    };
 
    Game.prototype.drawBullet = function(pos){
-      $(".bullet").addClass("bulletVisible").offset(pos);
+      $(this.elems["bullet"]).addClass("bulletVisible");
+      this.elems["bullet"].style.top = pos.top + "px";
+      this.elems["bullet"].style.left = pos.left + "px";
    };
    Game.prototype.destroyBullet = function(){
-      $(".bullet").removeClass("bulletVisible");
+      $(this.elems["bullet"]).removeClass("bulletVisible");
    };
 
    socket.on('gameStart', function(){

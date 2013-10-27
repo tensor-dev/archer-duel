@@ -59,7 +59,7 @@
       createBody({
          name : "ground",
          x : 50,
-         y : 20,
+         y : 19.2,
          width : 100,
          height: 1
       });
