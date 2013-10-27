@@ -113,7 +113,9 @@ Player.prototype._render = function() {
         //Считаем координаты обратного вектора
         vectorX = downX - e.pageX;
         vectorY = downY - e.pageY;
-        self._fireCallback(self._id, vectorX, vectorY);
+        if(self._isCurrent) {
+            self._fireCallback(self._id, vectorX, vectorY);
+        }
         downX = downY = null;
     });
 
