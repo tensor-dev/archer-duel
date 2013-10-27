@@ -83,14 +83,32 @@ body.gameBody{
    height: 100%;
    background: #800000;
 }
+.left_arrow {
+	height: 32px;
+	width: 16px; 
+	float:left; 
+	background-image:url("../img/leftarrow.png");
+}
+.right_arrow {
+	height: 32px;
+	width: 16px; 
+	float:left; 
+	background-image:url("../img/rightarrow.png");
+}
+.empty_space_for_arrow {
+	height: 32px;
+	width: 16px;  
+	float:left; 
+	background: #fff;
+}
 .block_wind {
-   position: absolute;
-   width: 20%;
-   height: 50%;
-   border: solid 1px black;
-   top: 2%;
-   left: 40%;
-   background: #0ff;
+	 position: absolute;
+	 width: 320px;
+	 height: 32px;
+	 border: solid 2px #7070ff; 
+	 top: 2%;
+	 left: 40%;
+	 background: #fff;
 }
 .block_player_right {
    position: absolute;
