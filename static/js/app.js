@@ -60,6 +60,7 @@
    };
 
    Game.prototype.mouseFire = function(id, x, y){
+      console.log("fire! x : " + x + " y : " + y );
       gameInst.fire(id, {x : x, y : y});
    };
 
@@ -71,8 +72,8 @@
          ChangeWind(data.wind);
       }
 
-      this.players["player1"] = this.players["player1"] || new Player(0, data["player1"].name, 3, gameInst.mouseFire());
-      this.players["player2"] = this.players["player2"] || new Player(1, data["player2"].name, 3, gameInst.mouseFire());
+      this.players["player1"] = this.players["player1"] || new Player(0, data["player1"].name, 3, gameInst.mouseFire);
+      this.players["player2"] = this.players["player2"] || new Player(1, data["player2"].name, 3, gameInst.mouseFire);
 
       this.players["player1"].setHP(data["player1"].hp);
       this.players["player2"].setHP(data["player2"].hp);
