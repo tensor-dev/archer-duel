@@ -90,14 +90,6 @@ body.gameBody{
 		float:left; 
 		background-image:url("../img/hud_heartEmpty.png");
 	}
-	.block_wind {
-	   position: absolute;
-	   width: 320px;
-	   height: 32px;
-	   top: 5px;
-	   left: 40%;
-	   background: transparent;
-	}
 	.block_player_right {
 	   position: absolute;
 	   width: 250px;
@@ -120,16 +112,15 @@ body.gameBody{
 	height: 32px;
 	width: 16px;  
 	float:left; 
-	background: #fff;
+	background: transparent;
 }
 .block_wind {
 	 position: absolute;
 	 width: 324px;
 	 height: 36px;
-	 border: solid 2px #7070ff; 
 	 top: 2%;
 	 left: 40%;
-	 background: #fff;
+	 background: transparent;
 }
 .block_player_right {
    position: absolute;
