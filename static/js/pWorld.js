@@ -179,7 +179,7 @@
       },
 
       isSleep: function (name) {
-         return !archers[name].body.IsAwake();
+         return !archers[name].IsAwake();
       },
 
       changeWind: function (dir) {
