@@ -59,6 +59,10 @@
       window.location = "/";
    };
 
+   Game.prototype.mouseFire = function(id, x, y){
+      gameInst.fire(id, {x : x, y : y});
+   };
+
    Game.prototype.onState = function(data){
       var winner = null;
       if(this.playerId == data.currentPlayer){
@@ -67,9 +71,8 @@
          ChangeWind(data.wind);
       }
 
-
-      this.players["player1"] = this.players["player1"] || new Player(0, data["player1"].name);
-      this.players["player2"] = this.players["player2"] || new Player(1, data["player2"].name);
+      this.players["player1"] = this.players["player1"] || new Player(0, data["player1"].name, 3, gameInst.mouseFire());
+      this.players["player2"] = this.players["player2"] || new Player(1, data["player2"].name, 3, gameInst.mouseFire());
 
       this.players["player1"].setHP(data["player1"].hp);
       this.players["player2"].setHP(data["player2"].hp);
@@ -142,7 +145,7 @@
       socket.emit("leave", connectData);
    });
 
-   $("body").keyup(function(e){
+   /*$("body").keyup(function(e){
       if(e.which == 32 && gameInst.playerId > -1 && !pWorld.bulletExists() && gameInst.iAmActive){
          if (gameInst.playerId == 0){
             gameInst.fire(gameInst.playerId, {x : 25,y : -15});
@@ -151,5 +154,5 @@
             gameInst.fire(gameInst.playerId, {x : -25,y : -15});
          }
       }
-   })
+   })*/
 }());
