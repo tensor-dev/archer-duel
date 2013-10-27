@@ -112,7 +112,7 @@ body.gameBody{
 	height: 32px;
 	width: 16px;  
 	float:left; 
-	background: #fff;
+	background: transparent;
 }
 .block_wind {
 	 position: absolute;
