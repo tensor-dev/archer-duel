@@ -16,6 +16,7 @@ body.gameBody{
    width: 3000px;
    height: 600px;
    margin-top: -300px;
+   background: url("/img/clouds.png") repeat-x;
 }
 #containerForArchers {
    position: absolute;
