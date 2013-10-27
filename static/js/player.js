@@ -116,19 +116,7 @@ Player.prototype._render = function() {
         self._fireCallback(self._id, vectorX, vectorY);
         downX = downY = null;
     });
-    // TODO(igor-nikitin) setup fire listener
-    /*
-     ??? Как узнать на какой DOM элемент подвешивать события ???
-     var self = this;
-     $('body').on('mousedown', function() { ... });
-     $('body').on('mouseup', function() {
-     ...
-     ...
-     ...
 
-     self._fireCallback(self._id, x, y);
-     });
-     */
 
     if(this._id == 0)
     {
@@ -241,20 +229,19 @@ Player.prototype.setHP = function(hp) {
 };
 
 Player.prototype.setCurrent = function(flag) {
-    // TODO(makhov-aleksandr) store current flag
+
     this._isCurrent = flag;
 
-    // TODO(makhov-aleksandr) render current indicator
     var indicatorID = "archer" + this._id + "indicator";
     var indicator = document.getElementById(indicatorID);
 
     if(flag == true)
     {
-        idicator.className = " triangle";
+        indicator.className = " triangle";
     }
     else
     {
-        idicator.className = "";
+        indicator.className = "";
     }
 };
 
