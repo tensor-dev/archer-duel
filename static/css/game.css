@@ -123,6 +123,21 @@ body.gameBody{
 	float:left; 
 	background: #fff;
 }
+.block_wind {
+	 position: absolute;
+	 width: 324px;
+	 height: 36px;
+	 border: solid 2px #7070ff; 
+	 top: 2%;
+	 left: 40%;
+	 background: #fff;
+}
+.block_player_right {
+   position: absolute;
+   width: 15%;
+   height: 100%;
+   right: 0%;
+}
 .centralContWrapper{
    position: relative;
    top: 50%;
