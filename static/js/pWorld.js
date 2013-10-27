@@ -63,6 +63,20 @@
          width : 100,
          height: 1
       });
+      createBody({
+         name : "ground",
+         x : -2,
+         y : 10,
+         width : 1,
+         height: 20
+      });
+      createBody({
+         name : "ground",
+         x : 22,
+         y : 10,
+         width : 1,
+         height: 20
+      });
    }
 
    function createArcher(name, pos){
