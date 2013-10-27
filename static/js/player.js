@@ -234,7 +234,7 @@ Player.prototype.setCurrent = function(flag) {
 
     this._isCurrent = flag;
 
-    var indicatorID = "archer" + this._id + "indicator";
+    var indicatorID = "archer" + this._id + "_indicator";
     var indicator = document.getElementById(indicatorID);
 
     if(flag == true)
