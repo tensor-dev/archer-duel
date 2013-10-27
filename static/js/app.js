@@ -98,8 +98,9 @@
       $(this.elems["bullet"]).removeClass("bulletVisible");
    };
 
-   socket.on('gameStart', function(){
+   socket.on('gameStart', function(data){
       gameInst =  new Game(window.currentPlayerPosition);
+      gameInst.onState(data);
    });
 
    socket.on('state', function (data) {
