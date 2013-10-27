@@ -87,13 +87,13 @@ body.gameBody{
 	height: 32px;
 	width: 16px; 
 	float:left; 
-	background-image:url("../../graphics/HUD/leftarrow.png");
+	background-image:url("../img/leftarrow.png");
 }
 .right_arrow {
 	height: 32px;
 	width: 16px; 
 	float:left; 
-	background-image:url("../../graphics/HUD/rightarrow.png");
+	background-image:url("../img/rightarrow.png");
 }
 .empty_space_for_arrow {
 	height: 32px;
