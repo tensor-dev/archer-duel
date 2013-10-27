@@ -52,17 +52,12 @@
 
    Game.prototype.onState = function(data){
       var self = this;
-      if(this.playerId == playerId){
+      if(this.playerId == data.currentPlayer){
          //значит мы ходим
          this.iAmActive = true;
-         this.turnTimeout = setTimeout(function(){
+         /*this.turnTimeout = setTimeout(function(){
             self.nextTurn()
-         }, 20000);
-      } else{
-         var players = data.players;
-         players.forEach(function(obj){
-            pWorld.setArcherPos(obj.name, obj.pos);
-         });
+         }, 20000);*/
       }
    };
 
