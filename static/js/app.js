@@ -58,7 +58,8 @@
       var winner = null;
       if(this.playerId == data.currentPlayer){
          this.iAmActive = true;
-         pWorld.changeWind(data.wind);
+         pWorld.changeWind(data.wind/10);
+         ChangeWind(data.wind);
       }
 
       if (!data["player1"].hp){
