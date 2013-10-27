@@ -94,10 +94,9 @@ body.gameBody{
 	   position: absolute;
 	   width: 320px;
 	   height: 32px;
-	   border: solid 1px black; 
 	   top: 5px;
 	   left: 40%;
-	   background: #0ff;
+	   background: transparent;
 	}
 	.block_player_right {
 	   position: absolute;
