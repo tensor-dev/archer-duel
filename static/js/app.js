@@ -13,6 +13,7 @@
       this.playerId    = playerId;
       this.iAmActive   = this.playerId === 0;
       this.turnTimeout = null;
+      this.players = {};
       this.elems= {
          "archer0" : $(".archer0")[0],
          "archer1" : $(".archer1")[0],
@@ -65,6 +66,13 @@
          pWorld.changeWind(data.wind/10);
          ChangeWind(data.wind);
       }
+
+
+      this.players["player1"] = this.players["player1"] || new Player(0, data["player1"].name);
+      this.players["player2"] = this.players["player2"] || new Player(1, data["player2"].name);
+
+      this.players["player1"].setHP(data["player1"].hp);
+      this.players["player2"].setHP(data["player2"].hp);
 
       console.log("received state : " + JSON.stringify(data));
 
